@@ -1,20 +1,47 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
+import Spinner from "../components/Spinner";
 
 const Register = () => {
-  const { signInWithGoogle } = useContext(AuthContext);
+  const { signInWithGoogle, setUser, setLoading, loading } =
+    useContext(AuthContext);
 
   const handSignUpWithGoogle = () => {
+    setLoading(true);
     signInWithGoogle()
       .then((result) => {
-        console.log(result);
         const user = result.user;
+        setUser(user);
+        const newUser = {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+        };
+
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("data after user save", data);
+          });
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
+
+  if (loading) {
+    return <Spinner></Spinner>;
+  }
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl p-5">
