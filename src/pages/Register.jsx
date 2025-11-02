@@ -4,8 +4,39 @@ import { AuthContext } from "../provider/AuthProvider";
 import Spinner from "../components/Spinner";
 
 const Register = () => {
-  const { signInWithGoogle, setUser, setLoading, loading } =
-    useContext(AuthContext);
+  const {
+    signInWithGoogle,
+    setUser,
+    setLoading,
+    loading,
+    signUp,
+    updateUserProfile,
+  } = useContext(AuthContext);
+
+  const handleSignUp = (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const photoURL = e.target.photoUrl.value;
+    const password = e.target.password.value;
+    signUp(email, password)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        updateUserProfile(name, photoURL)
+          .then(() => {})
+          .catch((error) => {
+            console.log(error.message);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const handSignUpWithGoogle = () => {
     setLoading(true);
@@ -56,17 +87,37 @@ const Register = () => {
           </p>
         </div>
         <div className="card-body">
-          <form>
+          <form onSubmit={handleSignUp}>
             <fieldset className="fieldset">
               <label className="label">Name</label>
-              <input type="text" className="input" placeholder="Name" />
+              <input
+                type="text"
+                name="name"
+                className="input"
+                placeholder="Name"
+              />
               <label className="label">Email</label>
-              <input type="email" className="input" placeholder="Email" />
+              <input
+                type="email"
+                name="email"
+                className="input"
+                placeholder="Email"
+              />
 
               <label className="label">Image-URL</label>
-              <input type="text" className="input" placeholder="Image-url" />
+              <input
+                type="text"
+                name="photoUrl"
+                className="input"
+                placeholder="Image-url"
+              />
               <label className="label">Password</label>
-              <input type="password" className="input" placeholder="Password" />
+              <input
+                type="password"
+                name="password"
+                className="input"
+                placeholder="Password"
+              />
               <div>
                 <a className="link link-hover">Forgot password?</a>
               </div>

@@ -1,7 +1,27 @@
-import React from "react";
-import { NavLink } from "react-router";
+import React, { useContext } from "react";
+import { NavLink, useNavigate } from "react-router";
+import { AuthContext } from "../provider/AuthProvider";
 
 const Login = () => {
+  const { login, setLoading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    login(email, password)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl p-5">
@@ -10,20 +30,32 @@ const Login = () => {
           <h4 className="text-3xl font-semibold">Login</h4>
           <p className="text-[.8rem]">
             Don't have an Account?{" "}
-            <NavLink to="/register" className="text-primary">Register Now</NavLink>
+            <NavLink to="/register" className="text-primary">
+              Register Now
+            </NavLink>
           </p>
         </div>
         <div className="card-body">
-          <form>
+          <form onSubmit={handleLogin}>
             <fieldset className="fieldset">
               <label className="label">Email</label>
-              <input type="email" className="input" placeholder="Email" />
+              <input
+                type="email"
+                name="email"
+                className="input"
+                placeholder="Email"
+              />
               <label className="label">Password</label>
-              <input type="password" className="input" placeholder="Password" />
+              <input
+                type="password"
+                name="password"
+                className="input"
+                placeholder="Password"
+              />
               <div>
                 <a className="link link-hover">Forgot password?</a>
               </div>
-              <button className="btn text-white mt-4 primary-btn">
+              <button type="submit" className="btn text-white mt-4 primary-btn">
                 Sign In
               </button>
             </fieldset>

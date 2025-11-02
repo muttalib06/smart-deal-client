@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  console.log(user)
 
   const handleLogout = () => {
     logout()
@@ -23,6 +24,16 @@ const Navbar = () => {
     <li key="all-products">
       <NavLink to="/all-products">All Products</NavLink>
     </li>,
+    <li key="my-products">
+      <NavLink to="/my-products">My Products</NavLink>
+    </li>,
+    <li key="my-bids">
+      <NavLink to="/my-bids">My Bids</NavLink>
+    </li>,
+    <li key="create-product">
+      <NavLink to="/create-product">Create Product</NavLink>
+    </li>,
+    
   ];
 
   return (
