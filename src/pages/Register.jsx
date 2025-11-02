@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 import Spinner from "../components/Spinner";
 
@@ -13,6 +13,8 @@ const Register = () => {
     updateUserProfile,
   } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const handleSignUp = (e) => {
     setLoading(true);
     e.preventDefault();
@@ -25,7 +27,9 @@ const Register = () => {
         const user = result.user;
         setUser(user);
         updateUserProfile(name, photoURL)
-          .then(() => {})
+          .then(() => {
+            navigate("/");
+          })
           .catch((error) => {
             console.log(error.message);
           });
@@ -61,6 +65,8 @@ const Register = () => {
           .then((data) => {
             console.log("data after user save", data);
           });
+
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);

@@ -5,7 +5,6 @@ import { toast, ToastContainer } from "react-toastify";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  console.log(user)
 
   const handleLogout = () => {
     logout()
@@ -19,21 +18,45 @@ const Navbar = () => {
 
   const links = [
     <li key="home">
-      <NavLink to="/">Home</NavLink>
+      <NavLink
+        className={({ isActive }) => (isActive ? "md:border-b pb-1 border-primary" : "")}
+        to="/"
+      >
+        Home
+      </NavLink>
     </li>,
     <li key="all-products">
-      <NavLink to="/all-products">All Products</NavLink>
+      <NavLink
+        className={({ isActive }) => (isActive ? "md:border-b pb-1 border-primary" : "")}
+        to="/all-products"
+      >
+        All Products
+      </NavLink>
     </li>,
     <li key="my-products">
-      <NavLink to="/my-products">My Products</NavLink>
+      <NavLink
+        className={({ isActive }) => (isActive ? "md:border-b pb-1 border-primary" : "")}
+        to="/my-products"
+      >
+        My Products
+      </NavLink>
     </li>,
     <li key="my-bids">
-      <NavLink to="/my-bids">My Bids</NavLink>
+      <NavLink
+        className={({ isActive }) => (isActive ? "md:border-b pb-1 border-primary" : "")}
+        to="/my-bids"
+      >
+        My Bids
+      </NavLink>
     </li>,
     <li key="create-product">
-      <NavLink to="/create-product">Create Product</NavLink>
+      <NavLink
+        className={({ isActive }) => (isActive ? "border-b pb-1" : "")}
+        to="/create-product"
+      >
+        Create Product
+      </NavLink>
     </li>,
-    
   ];
 
   return (
