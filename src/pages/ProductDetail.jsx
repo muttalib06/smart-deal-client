@@ -1,15 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import { AuthContext } from "../provider/AuthProvider";
 
 const ProductDetail = () => {
   const [showModal, setShowModal] = useState(false);
   const [bids, setBids] = useState([]);
+  const {user} = useContext(AuthContext);
   const product = useLoaderData();
 
   const handleShowModal = () => {
     setShowModal(true);
   };
+
+  const {
+    image,
+    title,
+    price_min,
+    price_max,
+    usage,
+    condition,
+    seller_image,
+    _id,
+    created_at,
+    description,
+    seller_name,
+    location,
+    status,
+    category,
+    email,
+  } = product;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +45,10 @@ const ProductDetail = () => {
       buyer_image: imgUrl,
       buyer_name: buyerName,
       buyer_contact: contactInfo,
+      product_image: image,
+      product_title: title,
+      product_min_price: price_min,
+      product_max_price: price_max,
 
       buyer_email: email,
       bid_price: bidPrice,
@@ -61,23 +85,6 @@ const ProductDetail = () => {
       .then((res) => res.json())
       .then((data) => setBids(data));
   }, [product._id]);
-  const {
-    image,
-    title,
-    price_min,
-    price_max,
-    usage,
-    condition,
-    seller_image,
-    _id,
-    created_at,
-    description,
-    seller_name,
-    location,
-    status,
-    category,
-    email,
-  } = product;
 
   return (
     <div className="max-w-[80%] mx-auto mt-10">
@@ -194,6 +201,9 @@ const ProductDetail = () => {
                 <label>Email</label> <br />
                 <input
                   type="email"
+                  autoComplete="email"
+                  defaultValue={user.email}
+                  readOnly
                   name="email"
                   className="input w-full"
                   placeholder="Email"
@@ -269,14 +279,14 @@ const ProductDetail = () => {
                   {/* Product */}
                   <td className="py-3 px-4 flex items-center gap-3">
                     <img
-                      src={image}
+                      src={bid.product_image}
                       alt="image"
                       className="w-10 h-10 rounded-md object-cover border"
                     />
                     <div>
-                      <p className="font-medium text-gray-800">{title}</p>
+                      <p className="font-medium text-gray-800">{bid.product_title}</p>
                       <p className="text-gray-500 text-sm">
-                        ${price_min}- {price_max}
+                        ${bid.product_min_price}- {bid.product_max_price}
                       </p>
                     </div>
                   </td>
