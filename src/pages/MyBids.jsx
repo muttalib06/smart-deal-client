@@ -57,9 +57,16 @@ const MyBids = () => {
 
   useEffect(() => {
     if (userEmail) {
-      fetch(`http://localhost:3000/bids?email=${userEmail}`)
+      fetch(`http://localhost:3000/bids?email=${userEmail}`,{
+        headers:{
+          authorization:`Bearer ${localStorage.getItem("accessToken")}`
+        }
+      })
         .then((res) => res.json())
-        .then((data) => setBids(data));
+        .then((data) => {
+          console.log(data);
+          setBids(data);
+        });
     }
   }, [userEmail]);
 
