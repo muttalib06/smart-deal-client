@@ -6,7 +6,7 @@ import { AuthContext } from "../provider/AuthProvider";
 const ProductDetail = () => {
   const [showModal, setShowModal] = useState(false);
   const [bids, setBids] = useState([]);
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const product = useLoaderData();
 
   const handleShowModal = () => {
@@ -203,7 +203,7 @@ const ProductDetail = () => {
                   type="email"
                   autoComplete="email"
                   defaultValue={user.email}
-                  readOnly
+               
                   name="email"
                   className="input w-full"
                   placeholder="Email"
@@ -284,7 +284,9 @@ const ProductDetail = () => {
                       className="w-10 h-10 rounded-md object-cover border"
                     />
                     <div>
-                      <p className="font-medium text-gray-800">{bid.product_title}</p>
+                      <p className="font-medium text-gray-800">
+                        {bid.product_title}
+                      </p>
                       <p className="text-gray-500 text-sm">
                         ${bid.product_min_price}- {bid.product_max_price}
                       </p>

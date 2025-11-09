@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
       },
       {
         path:"create-product",
-        Component:CreateProduct
+        element:<PrivateRoute><CreateProduct></CreateProduct></PrivateRoute>
       }
     ],
   },

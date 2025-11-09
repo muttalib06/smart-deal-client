@@ -1,9 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../provider/AuthProvider";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import axios from "axios";
+import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyBids = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [bids, setBids] = useState([]);
   const userEmail = user?.email;
 
@@ -57,18 +60,33 @@ const MyBids = () => {
 
   useEffect(() => {
     if (userEmail) {
-      fetch(`http://localhost:3000/bids?email=${userEmail}`,{
-        headers:{
-          authorization:`Bearer ${localStorage.getItem("accessToken")}`
-        }
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setBids(data);
+      axiosSecure
+        .get(`http://localhost:3000/bids?email=liam@gmail.com`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")} `,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setBids(res.data);
         });
     }
   }, [userEmail]);
+
+  // useEffect(() => {
+  //   if (userEmail) {
+  //     fetch(`http://localhost:3000/bids?email=${userEmail}`,{
+  //       headers:{
+  //         authorization:`Bearer ${localStorage.getItem("accessToken")}`
+  //       }
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         console.log(data);
+  //         setBids(data);
+  //       });
+  //   }
+  // }, [userEmail]);
 
   return (
     <div className="mt-10 max-w-[80%] mx-auto">
